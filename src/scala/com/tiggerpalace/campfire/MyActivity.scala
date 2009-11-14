@@ -1,4 +1,4 @@
-package com.example.myproject
+package com.tiggerpalace.campfire
 
 import _root_.android.app.Activity
 import _root_.android.os.Bundle
@@ -8,9 +8,9 @@ class MyActivity extends Activity {
   
   override def onCreate(savedInstanceState: Bundle) {
     super.onCreate(savedInstanceState)
+    
     val tv = new TextView(this)
-    tv.setText("Hello Android, I'm Scala!")
+    tv.setText("Hello Android, I'm Camp Stove!")
     setContentView(tv)
-    //    setContentView(R.layout.main)
   }
 }
