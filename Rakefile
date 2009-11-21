@@ -18,6 +18,8 @@ end
 app_pkg = manifest[:package]
 project = app_pkg.gsub(/\./, '_')
 
+@spec_pkg = "com.tiggerpalace.campfire.specs"
+
 sdk_location = ENV['ANDROID_SDK']
 src = 'src'
 gen = 'gen'
@@ -25,9 +27,12 @@ res = 'res'
 bin = 'bin'
 libs = 'libs'
 assets = 'assets'
-classes = "#{bin}/classes"
+@classes = classes = "#{bin}/classes"
 classes_jar = "/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Classes/classes.jar"
 scala_jars  = %w(scala-compiler.jar scala-library.jar).map { |l| File.join(ENV['SCALA_HOME'], 'lib', l) }
+test_jars = FileList.new + Dir.open("test_libs") { |dir| 
+  dir.collect { |f| File.expand_path("test_libs/#{f}") if File.file?("test_libs/#{f}") }
+}.compact
 
 ap_ = "#{bin}/#{project}.ap_"
 apk = "#{bin}/#{project}.apk"
@@ -42,7 +47,7 @@ directory classes
 dirs = [gen, bin, classes]
 
 CLEAN.include(gen, bin)
-CLASSPATH = FileList["#{libs}/**/*.jar"] + scala_jars
+CLASSPATH = FileList["#{libs}/**/*.jar"] + scala_jars + test_jars
 BOOTCLASSPATH = FileList[android_jar, classes_jar]
 
 # Extensions for standard rake classes.
@@ -60,8 +65,10 @@ def compile_java(dest, *srcdirs)
     files.include("#{d}/**/*.java")
   end
 
-  sh "javac", "-target", "1.5", "-g", "-bootclasspath", BOOTCLASSPATH.to_cp,  "-nowarn", "-Xlint:none", 
-     "-sourcepath", srcdirs.join(File::PATH_SEPARATOR), "-d", dest ,"-classpath", CLASSPATH.to_cp, *files
+  unless files.empty?
+    sh "javac", "-target", "1.5", "-g", "-bootclasspath", BOOTCLASSPATH.to_cp,  "-nowarn", "-Xlint:none", 
+       "-sourcepath", srcdirs.join(File::PATH_SEPARATOR), "-d", dest ,"-classpath", CLASSPATH.to_cp, *files
+  end
 end
 
 def compile_scala(dest, *srcdirs)
@@ -74,10 +81,28 @@ def compile_scala(dest, *srcdirs)
      "-sourcepath", srcdirs.join(File::PATH_SEPARATOR), "-d", dest ,"-classpath", CLASSPATH.to_cp, *files
 end
 
-task :default => :debug
+def spec_classes
+  class_list = FileList.new.include(File.expand_path("#{@classes}/#{@spec_pkg.gsub(/\./, '/')}/**/*.class"))
+  classes = []
+  class_list.each do |f| 
+    path = f.split(/\//)
+    next unless path.last =~ /^\w+\.class$/
+    path.push path.pop.gsub(/\.class/, "")
+    classes << path[path.index("classes")+1..-1].join(".")
+  end
+  classes
+end
+
+task :default => :test
 
 task :resource_src => dirs do
   sh "aapt package -m -J #{gen} -M AndroidManifest.xml -S #{res} -I #{android_jar}"
+end
+
+task :test => :compile do
+  spec_classes.each do |klass|
+    sh "java", "-cp", CLASSPATH.to_cp + ":#{File.expand_path(@classes)}", klass
+  end
 end
 
 
@@ -88,7 +113,7 @@ task :aidl => dirs do
 end
 
 task :compile => [:resource_src, :aidl] do
-  #compile_java(classes, gen)
+  compile_java(classes, gen)
   compile_scala(classes, src, gen)
 end
 
