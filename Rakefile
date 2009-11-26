@@ -21,6 +21,7 @@ project = app_pkg.gsub(/\./, '_')
 @spec_pkg = "com.tiggerpalace.campfire.specs"
 
 sdk_location = ENV['ANDROID_SDK']
+scala_lib_path = '/usr/local/lib'
 src = 'src'
 gen = 'gen'
 res = 'res'
@@ -29,7 +30,7 @@ libs = 'libs'
 assets = 'assets'
 @classes = classes = "#{bin}/classes"
 classes_jar = "/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Classes/classes.jar"
-scala_jars  = %w(scala-compiler.jar scala-library.jar).map { |l| File.join(ENV['SCALA_HOME'], 'lib', l) }
+scala_jars  = %w(scala-compiler.jar scala-library.jar).map { |l| File.join(scala_lib_path, l) }
 test_jars = FileList.new + Dir.open("test_libs") { |dir| 
   dir.collect { |f| File.expand_path("test_libs/#{f}") if File.file?("test_libs/#{f}") }
 }.compact
@@ -164,7 +165,7 @@ end
 
 desc "Installs the debug package onto a running emulator or device (DEVICE=<serialno>)."
 task :install => :debug do
-  adb 'install', apk
+  adb 'install', '-r', apk
 end
 
 desc "Installs the debug package on a running emulator or device that already has the application (DEVICE=<serialno>)."
