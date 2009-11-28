@@ -23,7 +23,6 @@ class MyActivity extends Activity {
 
     val tv = new TextView(this)
     tv.setText("Camp Stove received a " + connection.getResponseCode + " from Campfire")
-    tv.setText("Hello, world from Scala")
     setContentView(tv)
   }
 }
