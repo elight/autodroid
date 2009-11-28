@@ -15,18 +15,3 @@ object Http {
     conn
   }
 }
-
-    /*
-    val client = new DefaultHttpClient
-    val post = new HttpPost(protocol + "://" + url)
-    val params = new BasicHttpParams
-    post setParams(params)
-
-    // Dangerous without null check
-    val credentials = accounts(subdomain)
-    params setParameter("email_address", credentials("emailAddress"))
-    params setParameter("password", credentials("password"))
-
-    val responseCode = client.execute(post).getStatusLine.getStatusCode
-    responseCode >= 200 && responseCode < 400
-    */
