@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+  xmlns:android="http://schemas.android.com/apk/res/android" 
+  android:orientation="vertical" 
+  android:layout_width="fill_parent" 
+  android:layout_height="fill_parent" 
+  android:padding="30dip" > 
+  <TextView
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text="@string/first_time"
+    android:layout_marginBottom="20dip" />
+  <TableLayout
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"
+    android:stretchColumns="1" 
+    android:padding="10dip" >
+    <TableRow
+      android:layout_marginBottom="10dip">
+      <TextView
+        android:id="@+id/login_label" 
+        android:layout_width="75px" 
+        android:layout_height="wrap_content" 
+        android:text="@string/login" />
+      <EditText
+        android:id="@+id/login_field" 
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content" 
+        android:layout_toRightOf="@id/login_label"
+        android:lines="1" />
+    </TableRow>
+    <TableRow
+      android:layout_marginBottom="10dip">
+      <TextView
+        android:id="@+id/password_label" 
+        android:layout_width="75px" 
+        android:layout_height="wrap_content" 
+        android:text="@string/password" />
+      <EditText
+        android:id="@+id/password_field" 
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content" 
+        android:layout_toRightOf="@id/password_label"
+        android:lines="1" />
+    </TableRow>
+    <TableRow
+      android:layout_marginBottom="10dip">
+      <TextView
+        android:id="@+id/campfire_label" 
+        android:layout_width="75px" 
+        android:layout_height="wrap_content" 
+        android:text="@string/campfire" />
+      <EditText
+        android:id="@+id/campfire_field" 
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content" 
+        android:layout_toRightOf="@id/campfire_label"
+        android:lines="1" />
+    </TableRow>
+  </TableLayout>
+  <Button 
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text="@string/sign_in_now" />
+</LinearLayout>
+

@@ -12,17 +12,6 @@ class MyActivity extends Activity {
   
   override def onCreate(savedInstanceState: Bundle) {
     super.onCreate(savedInstanceState)
-    
-    val connection = Http.post(
-      "https://wearetitans.campfirenow.com/login", 
-      Map(
-        "emailAddress" -> "evan@tiggerpalace.com",
-        "password" -> "s1dewind3r",
-      )
-    )
-
-    val tv = new TextView(this)
-    tv.setText("Camp Stove received a " + connection.getResponseCode + " from Campfire")
-    setContentView(tv)
+    setContentView(R.layout.main)
   }
 }
