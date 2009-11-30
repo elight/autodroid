@@ -8,4 +8,5 @@
     <string name="campfire">Campfire</string>
     <string name="campfire_example">your_campfire.campfirenow.com</string>
     <string name="sign_in_now">Sign in to your campfire</string>
+    <string name="campfirenow">.campfirenow.com</string>
 </resources>
