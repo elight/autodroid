@@ -11,12 +11,14 @@
     android:layout_height="wrap_content" 
     android:text="@string/first_time"
     android:textColor="@color/text"
-    android:layout_marginBottom="20dip" />
+    android:layout_marginBottom="16dip" />
 
   <TextView
     android:layout_height="wrap_content" 
     android:layout_width="wrap_content"
     android:textColor="@color/text"
+    android:textSize="16dip"
+    android:testStyle="bold"
     android:text="@string/login" />
   <EditText
     android:id="@+id/login_field" 
@@ -29,24 +31,28 @@
     android:layout_height="wrap_content" 
     android:layout_width="wrap_content"
     android:textColor="@color/text"
+    android:textSize="16dip"
+    android:testStyle="bold"
     android:text="@string/password" />
   <EditText
     android:id="@+id/password_field" 
     android:layout_width="fill_parent"
     android:layout_height="wrap_content" 
-    android:layout_marginBottom="20dip"
+    android:layout_marginBottom="16dip"
     android:lines="1" />
 
   <TextView
     android:layout_height="wrap_content" 
     android:layout_width="wrap_content"
     android:textColor="@color/text"
+    android:textSize="16dip"
+    android:testStyle="bold"
     android:text="@string/campfire" />
   <LinearLayout
     android:orientation="horizontal" 
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content"
-    android:layout_marginBottom="20dip">
+    android:layout_marginBottom="16dip">
     <EditText
       android:id="@+id/campfire_field" 
       android:layout_width="170dip"
@@ -56,7 +62,7 @@
       android:layout_toRightOf="@id/campfire_field"
       android:layout_width="120dip" 
       android:layout_height="wrap_content" 
-    android:textColor="@color/text"
+      android:textColor="@color/text"
       android:text="@string/campfirenow" />
   </LinearLayout>
   <Button 
