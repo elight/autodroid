@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Camp Stove</string>
-    <string name="sign_in">Sign in</string>
-    <string name="first_time">Since this is your first time using Camp Stove, you need to provide your Campfire login, password, and the Campfire (subdomain) to sign in</string>
-    <string name="login">Login</string>
-    <string name="password">Password</string>
-    <string name="campfire">Campfire</string>
-    <string name="campfire_example">your_campfire.campfirenow.com</string>
-    <string name="sign_in_now">Sign in to your campfire!</string>
-    <string name="campfirenow">.campfirenow.com</string>
+    <string name="app_name">AutoDroid</string>
+    <string name="search">Search</string>
+    <string name="navigation">Navigation</string>
+    <string name="music">Music</string>
+    <string name="call">Call</string>
+
 </resources>

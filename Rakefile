@@ -18,7 +18,7 @@ end
 app_pkg = manifest[:package]
 project = app_pkg.gsub(/\./, '_')
 
-@spec_pkg = "com.tiggerpalace.campfire.specs"
+@spec_pkg = "com.tiggerpalace.automan.specs"
 
 sdk_location = ENV['ANDROID_SDK']
 scala_lib_path = '/usr/local/lib'
@@ -114,19 +114,20 @@ task :aidl => dirs do
 end
 
 task :compile => [:resource_src, :aidl] do
-  compile_java(classes, gen)
-  compile_scala(classes, src, gen)
+  compile_java(classes, src, gen)
+  #compile_scala(classes, src, gen)
 end
 
 task :shake => [ :compile ] do
   sh "java", "-Xmx512M", "-jar", "proguard/proguard.jar",
-    "-injars", "#{classes}:#{scala_jars.last}(!META-INF/MANIFEST.MF,!library.properties)",
+    "-injars", "#{classes}(!META-INF/MANIFEST.MF,!library.properties)",
     "-outjars", "#{bin}/out.min.jar",
     "-libraryjars", android_jar,
     "-dontwarn",
     "-dontoptimize",
     "-dontobfuscate",
-    "-keep",  "public class * extends android.app.Activity"
+    "-keep",  "public class * extends android.app.Activity",
+    "-keep",  "public class * extends android.cotent.BroadcastReceiver"
 end
 
 task :dex => :shake do

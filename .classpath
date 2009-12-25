@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="lib" path="bin/out.min.jar"/>
+	<classpathentry kind="lib" path="proguard/proguard.jar"/>
+	<classpathentry kind="lib" path="test_libs/android.jar"/>
+	<classpathentry kind="lib" path="test_libs/mockito-all-1.8.0.jar"/>
+	<classpathentry kind="lib" path="test_libs/specs-1.6.2-SNAPSHOT.jar"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="output" path="bin/classes"/>
+</classpath>
