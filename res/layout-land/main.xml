@@ -12,11 +12,13 @@
       android:layout_height="120sp"
       android:layout_width="225sp"
       android:id="@+id/call_button"
+      android:textSize="30sp"
       android:text="@string/call" />
     <Button 
       android:layout_height="120sp"
       android:layout_width="225sp"
       android:id="@+id/music_button"
+      android:textSize="30sp"
       android:text="@string/music" />
   </TableRow>
   <TableRow
@@ -25,11 +27,13 @@
       android:layout_height="120sp"
       android:layout_width="225sp"
       android:id="@+id/search_button"
+      android:textSize="30sp"
       android:text="@string/search" />
     <Button 
       android:layout_height="120sp"
       android:layout_width="225sp"
       android:id="@+id/nav_button"
+      android:textSize="30sp"
       android:text="@string/navigation" />
   </TableRow>
 </TableLayout>

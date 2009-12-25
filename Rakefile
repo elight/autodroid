@@ -30,10 +30,6 @@ libs = 'libs'
 assets = 'assets'
 @classes = classes = "#{bin}/classes"
 classes_jar = "/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Classes/classes.jar"
-scala_jars  = %w(scala-compiler.jar scala-library.jar).map { |l| File.join(scala_lib_path, l) }
-test_jars = FileList.new + Dir.open("test_libs") { |dir| 
-  dir.collect { |f| File.expand_path("test_libs/#{f}") if File.file?("test_libs/#{f}") }
-}.compact
 
 ap_ = "#{bin}/#{project}.ap_"
 apk = "#{bin}/#{project}.apk"
@@ -48,7 +44,7 @@ directory classes
 dirs = [gen, bin, classes]
 
 CLEAN.include(gen, bin)
-CLASSPATH = FileList["#{libs}/**/*.jar"] + scala_jars + test_jars
+CLASSPATH = FileList["#{libs}/**/*.jar"]
 BOOTCLASSPATH = FileList[android_jar, classes_jar]
 
 # Extensions for standard rake classes.
