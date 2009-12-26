@@ -60,7 +60,7 @@ public class PlaylistActivity extends ListActivity {
         intent.setComponent(new ComponentName 
         ("com.android.music","com.android.music.PlaylistBrowserActivity")); 
         intent.setType(MediaStore.Audio.Playlists.CONTENT_TYPE); 
-        intent.setFlags(0x10000000); 
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); 
         intent.putExtra("oneshot", false); 
         intent.putExtra("playlist", playlistid); 
         startActivity(intent);
