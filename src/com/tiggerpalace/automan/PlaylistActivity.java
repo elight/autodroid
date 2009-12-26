@@ -29,11 +29,11 @@ import static android.provider.MediaStore.Audio.PlaylistsColumns.DATA;
 public class PlaylistActivity extends ListActivity {
   private static final Uri PLAYLIST_URI = MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI;
 
-  private static final String[] FROM = { _ID, NAME };
+  private static final String[] FROM = { _ID, NAME, DATA };
   private static final int[] TO = { R.id.rowid, R.id.name };
   private static String ORDER_BY = MediaStore.Audio.PlaylistsColumns.NAME + " ASC";
 
-  private int idColumnIndex;
+  private int dataColumnIndex;
   
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -43,27 +43,21 @@ public class PlaylistActivity extends ListActivity {
     // Get a cursor with all people
     Cursor c = getContentResolver().query(PLAYLIST_URI, FROM, null, null, ORDER_BY);
     startManagingCursor(c);
-    this.idColumnIndex = c.getColumnIndex(_ID);
-    
-    ListAdapter adapter = new SimpleCursorAdapter(this,
-          R.layout.item, c, FROM, TO);
+    this.dataColumnIndex = c.getColumnIndex(DATA);
+
+    ListAdapter adapter = new SimpleCursorAdapter(this, R.layout.item, c, FROM, TO);
     setListAdapter(adapter);
   }
 
   @Override
   public void onListItemClick(ListView parent, View v, int position, long id) {
-	Log.d("onListItemClick", id + "");  
+  Log.d("onListItemClick", id + "");  
     if (position >= 0) {
-        Cursor c = (Cursor) parent.getItemAtPosition(position);
-        String playlistid = c.getString(this.idColumnIndex);
-        Intent intent = new Intent(Intent.ACTION_VIEW); 
-        intent.setComponent(new ComponentName 
-        ("com.android.music","com.android.music.PlaylistBrowserActivity")); 
-        intent.setType(MediaStore.Audio.Playlists.CONTENT_TYPE); 
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); 
-        intent.putExtra("oneshot", false); 
-        intent.putExtra("playlist", playlistid); 
-        startActivity(intent);
+      Cursor c = (Cursor) parent.getItemAtPosition(position);
+      String m3u = c.getString(this.dataColumnIndex);
+      Intent intent = new Intent(this, MediaPlayerActivity.class); 
+      intent.putExtra("playlist", m3u); 
+      startActivity(intent);
     }
   }
 }

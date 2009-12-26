@@ -16,6 +16,8 @@
         </activity>
         <activity android:name=".PlaylistActivity"
                   android:label="Playlists"/>
+        <activity android:name=".MediaPlayerActivity"
+                  android:label="Media Player"/>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
 </manifest> 
