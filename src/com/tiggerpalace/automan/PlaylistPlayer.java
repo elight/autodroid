@@ -1,7 +1,6 @@
 package com.tiggerpalace.automan;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.ListIterator;
 
 import android.media.MediaPlayer;
@@ -12,9 +11,9 @@ public class PlaylistPlayer implements OnCompletionListener {
   private static PlaylistPlayer instance = null;
 
   private ArrayList<String> playlist;
-  private Thread thread = null;
   private ListIterator<String> playlistIterator;
-  private PlaylistRunnable runnable;
+  //private PlaylistRunnable runnable;
+  private MediaPlayer player;
   
   public static PlaylistPlayer getInstance() {
     if(instance == null) {
@@ -31,114 +30,92 @@ public class PlaylistPlayer implements OnCompletionListener {
   public void start() {
     Log.d("AutoDroid:PlaylistPlayer.start", "-");    
     stop();
-    runnable = new PlaylistRunnable(this);
-    thread = new Thread(runnable);
-    thread.start();
+    player = buildPlayer();
+    if(playlistIterator.hasNext()) {
+      try {
+        String filename = playlistIterator.next();
+        player.setDataSource(filename);
+        player.prepare();
+        player.start();
+        Log.d("AutoDroid:PlaylistPlayer:run", new StringBuffer().append("Now playing: '").append(filename).append("'").toString());
+      } catch(Exception e) {
+        Log.e("AutoDroid:PlaylistPlayer:run", e.getMessage());
+      }
+    }
   }
-  
+
   public void stop() {
     Log.d("AutoDroid:PlaylistPlayer.stop", "-");
-    if(thread != null) {
-      runnable.stop();
-      thread.interrupt();
-      thread = null;
+    if(player != null) {
+      player.stop();
+      player.release();
+      player = null;
     }
   }
   
   public void previousTrack() {
     Log.d("AutoDroid:PlaylistPlayer.previousTrack", "-");
-    if(thread != null && playlistIterator.hasPrevious()) {
-      boolean isPlaying = runnable.isPlaying();
+    if(playlistIterator.hasPrevious()) {
+      boolean wasPlaying = isPlaying();
       stop();
       playlistIterator.previous();
       if(playlistIterator.hasPrevious()) {
         playlistIterator.previous();
       }
-      if(isPlaying) {
-        thread = new Thread(runnable);
-        thread.start();
+      if(wasPlaying) {
+        start();
       }
     }
   }
   
   public void nextTrack() {
     Log.d("AutoDroid:PlaylistPlayer.nextTrack", "-");    
-    if(thread != null && playlistIterator.hasNext()) {
-      boolean isPlaying = runnable.isPlaying();
+    if(playlistIterator.hasNext()) {
+      boolean wasPlaying = isPlaying();
       stop();
-      if(isPlaying) {
-        thread = new Thread(runnable);
-        thread.start();
+      if(wasPlaying) {
+        start();
       } 
     }
   }
   
   public void togglePlayPause() {
     Log.d("AutoDroid:PlaylistPlayer.togglePlayPause", "-");
-    if(runnable != null) {
-      if(runnable.isPlaying()) {
-        runnable.pause();
-      } else {
-        runnable.start();
+    if(isPlaying()) {
+      player.pause();
+    } else {
+      try {
+        if(player != null) {
+          player.start();
+        } 
+      } catch(Exception e) {
+        start();
       }
     }
   }
   
   public boolean isPlaying() {
-    return runnable.isPlaying();
+    boolean retval = false;
+    if (player != null) {
+      try {
+        retval = player.isPlaying();
+      } catch(IllegalStateException e) {
+        // We don't really care because it's still not playing if this is thrown
+      }
+    }
+    return retval;
   }
   
   public void onCompletion(MediaPlayer mp) {
-    thread = new Thread(runnable);
-    thread.start();
-  }  
-  
-  private class PlaylistRunnable implements Runnable {
-    private PlaylistPlayer playlistPlayer;
-    private MediaPlayer player;
-
-    PlaylistRunnable(PlaylistPlayer player) {
-      this.playlistPlayer = player;
-    }
-    
-    public boolean isPlaying() {
-      return player.isPlaying();
-    }
-    
-    public void pause() {
-      Log.d("AutoDroid:PlaylistPlayer:PlaylistRunnable.pause", "-");
-      player.pause();
-    }
-
-    public void start() {
-      Log.d("AutoDroid:PlaylistPlayer:PlaylistRunnable.start", "-");      
-      player.start();
-    }
-
-    public void stop() {
-      Log.d("AutoDroid:PlaylistPlayer:PlaylistRunnable.stop", "-");      
-      player.stop();
-      player.release();
-    }
-    
-    public void run() {
-      player = new MediaPlayer();
-      player.setLooping(false);
-      player.setOnCompletionListener(playlistPlayer);
-      if(playlistIterator.hasNext()) {
-        try {
-          String filename = playlistIterator.next();
-          player.setDataSource(filename);
-          player.prepare();
-          player.start();
-          Log.d("AutoDroid:PlaylistPlayer:run", new StringBuffer().append("Now playing: '").append(filename).append("'").toString());
-        } catch(Exception e) {
-          Log.e("AutoDroid:PlaylistPlayer:run", e.getMessage());
-        }
-      }
+    if(playlistIterator != null && playlistIterator.hasNext()) {
+      start();
     }
   }
   
-  private PlaylistPlayer() {
+  private MediaPlayer buildPlayer() {
+    MediaPlayer player = new MediaPlayer();
+    player.setLooping(false);
+    player.setOnCompletionListener(this);
+    return player;
   }
 }
