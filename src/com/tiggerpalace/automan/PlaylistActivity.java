@@ -42,7 +42,7 @@ public class PlaylistActivity extends ListActivity {
 
   @Override
   public void onListItemClick(ListView parent, View v, int position, long id) {
-	Log.d("onListItemClick", id + "");  
+	Log.d("AutoDroid:PlaylistActivity:onListItemClick", id + "");  
     if (position >= 0) {
         Cursor c = (Cursor) parent.getItemAtPosition(position);
         String playlistid = c.getString(this.idColumnIndex);

@@ -29,7 +29,7 @@ public class MediaPlayerActivity extends Activity {
 
 	private int fileNameColumnIndex;
 	
-	private Thread playerThread;
+	private static Thread playerThread;
 	
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -42,13 +42,13 @@ public class MediaPlayerActivity extends Activity {
     playFilesInOrderFrom(audioFiles);
   }
   
-  public void onPause(MediaPlayerActivity activity) {
-    super.onPause();
-    playerThread.interrupt();
-  }
-
   private void playFilesInOrderFrom(ArrayList<String> fileList) {
-	Log.d("playFilesInOrderFrom", fileList.toString());
+	Log.d("AutoDroid:MediaPlayerActivity:playFilesInOrderFrom", fileList.toString());
+	if(playerThread != null) {
+      Log.d("AutoDroid:MediaPlayerActivity:playFilesInOrderFrom", "playerThread already running! interrupting!");	  
+	  playerThread.interrupt();
+	  playerThread = null;
+	}
 	playerThread = new Thread(new PlaylistPlayer(fileList));
 	playerThread.start();
   }
@@ -57,14 +57,14 @@ public class MediaPlayerActivity extends Activity {
 	playlistURI = MediaStore.Audio.Playlists.Members.getContentUri("external", Long.parseLong(playlistid));
 	Cursor c = managedQuery(playlistURI, FROM, null, null, null);
 	if(!c.moveToFirst()) {
-	  Log.w("loadMediaFrom", "Got an empty cursor back WTF?");
+	  Log.w("AutoDroid:MediaPlayerActivity:loadMediaFrom", "Got an empty cursor back WTF?");
 	}
 	fileNameColumnIndex = c.getColumnIndex(DATA);
 
 	String audioFileName;
 	do {
 	  audioFileName = c.getString(fileNameColumnIndex);
-	  Log.d("loadMediaFrom", audioFileName);
+	  Log.d("AutoDroid:MediaPlayerActivity:loadMediaFrom", audioFileName);
 	  this.audioFiles.add(audioFileName);
 	} while(c.moveToNext());
 	

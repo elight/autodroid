@@ -13,20 +13,22 @@ public class PlaylistPlayer implements Runnable, OnCompletionListener {
   
   public PlaylistPlayer(ArrayList<String> playlist) {
     this.playlist = playlist;
+    this.playlistIterator = playlist.iterator();
   }
-
+  
   public void run() {
     MediaPlayer player = new MediaPlayer();
     player.setLooping(false);
     player.setOnCompletionListener(this);
-    playlistIterator = playlist.iterator();
     if(playlistIterator.hasNext()) {
       try {
-        player.setDataSource(playlistIterator.next());
+        String filename = playlistIterator.next();
+        player.setDataSource(filename);
         player.prepare();
         player.start();
+        Log.d("AutoDroid:PlaylistPlayer:run", new StringBuffer().append("Now playing: '").append(filename).append("'").toString());
       } catch(Exception e) {
-        Log.e("playFirstFileIn", e.getMessage());
+        Log.e("AutoDroid:PlaylistPlayer:run", e.getMessage());
       }
     }
   }
