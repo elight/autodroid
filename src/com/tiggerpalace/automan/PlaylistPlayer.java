@@ -37,9 +37,9 @@ public class PlaylistPlayer implements OnCompletionListener {
         player.setDataSource(filename);
         player.prepare();
         player.start();
-        Log.d("AutoDroid:PlaylistPlayer:run", new StringBuffer().append("Now playing: '").append(filename).append("'").toString());
+        Log.d("AutoDroid:PlaylistPlayer:start", new StringBuffer().append("Now playing: '").append(filename).append("'").toString());
       } catch(Exception e) {
-        Log.e("AutoDroid:PlaylistPlayer:run", e.getMessage());
+        Log.e("AutoDroid:PlaylistPlayer:start", e.getMessage());
       }
     }
     Log.d("AutoDroid:PlaylistPlayer.start", "done");    
@@ -95,7 +95,9 @@ public class PlaylistPlayer implements OnCompletionListener {
           Log.d("AutoDroid:PlaylistPlayer.togglePlayPause", "Attempting to resume play via MediaPlayer.start");
           player.start();
           Log.d("AutoDroid:PlaylistPlayer.togglePlayPause", "Success!");
-        } 
+        } else {
+          start();
+        }
       } catch(Exception e) {
         Log.d("AutoDroid:PlaylistPlayer.togglePlayPause", "Failure! Caught an exception in MediaPlayer.start; starting from scratch on next track");
         start();
