@@ -51,6 +51,9 @@ public class PlaylistPlayer implements OnCompletionListener {
       boolean isPlaying = runnable.isPlaying();
       stop();
       playlistIterator.previous();
+      if(playlistIterator.hasPrevious()) {
+        playlistIterator.previous();
+      }
       if(isPlaying) {
         thread = new Thread(runnable);
         thread.start();
@@ -72,7 +75,7 @@ public class PlaylistPlayer implements OnCompletionListener {
   
   public void togglePlayPause() {
     Log.d("AutoDroid:PlaylistPlayer.togglePlayPause", "-");
-    if(runnable != null)
+    if(runnable != null
       if(runnable.isPlaying()) {
         runnable.pause();
       } else {

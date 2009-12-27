@@ -46,6 +46,12 @@ public class MediaPlayerActivity extends Activity implements OnClickListener {
 
     View playPauseButton = findViewById(R.id.play_pause_button); 
     playPauseButton.setOnClickListener(this);
+    View rwButton = findViewById(R.id.rw_button); 
+    rwButton.setOnClickListener(this);
+    View ffButton = findViewById(R.id.ff_button); 
+    ffButton.setOnClickListener(this);
+    View stopButton = findViewById(R.id.stop_button); 
+    stopButton.setOnClickListener(this);    
   }
 
   public void onDestroy() {
