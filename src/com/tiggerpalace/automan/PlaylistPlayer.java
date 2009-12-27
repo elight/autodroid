@@ -118,9 +118,15 @@ public class PlaylistPlayer implements OnCompletionListener {
     return retval;
   }
   
+  public boolean isPlayingOrPaused() {
+    return isPlaying() || player != null; 
+  }
+  
   public void onCompletion(MediaPlayer mp) {
     if(playlistIterator != null && playlistIterator.hasNext()) {
       start();
+    } else {
+      stop();
     }
   }
   

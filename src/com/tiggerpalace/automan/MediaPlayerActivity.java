@@ -41,18 +41,22 @@ public class MediaPlayerActivity extends Activity implements OnClickListener {
     setContentView(R.layout.mediaplayer);
 
     String playlistid = getIntent().getStringExtra("PLAYLIST_ID");
-    ArrayList<String> audioFiles = loadMediaFrom(playlistid);
-    playFilesInOrderFrom(audioFiles);
+    // Handle case where we're creating a MediaPlayerActivity but the player is or was already playing 
+    if( playlistid != null && !playlistid.equals("") ) {
+      ArrayList<String> audioFiles = loadMediaFrom(playlistid);
+      playFilesInOrderFrom(audioFiles);
+    }
 
-    View playPauseButton = findViewById(R.id.play_pause_button); 
+    Button playPauseButton = (Button) findViewById(R.id.play_pause_button); 
     playPauseButton.setOnClickListener(this);
     View rwButton = findViewById(R.id.rw_button); 
     rwButton.setOnClickListener(this);
     View ffButton = findViewById(R.id.ff_button); 
-    ffButton.setOnClickListener(this);
-    /*
-    View stopButton = findViewById(R.id.stop_button); 
-    stopButton.setOnClickListener(this);*/    
+    ffButton.setOnClickListener(this); 
+    
+    if( ! PlaylistPlayer.getInstance().isPlaying() ) {
+      playPauseButton.setText("PLAY");
+    }
   }
 
   public void onDestroy() {
@@ -72,11 +76,6 @@ public class MediaPlayerActivity extends Activity implements OnClickListener {
         ((Button) v).setText(label);           
         PlaylistPlayer.getInstance().togglePlayPause();
         break;
-        /*
-      case R.id.stop_button:
-        PlaylistPlayer.getInstance().stop();
-        break;
-        */
       case R.id.rw_button:
         PlaylistPlayer.getInstance().previousTrack();
         break;

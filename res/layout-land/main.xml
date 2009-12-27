@@ -32,9 +32,10 @@
     <Button 
       android:layout_height="120sp"
       android:layout_width="270sp"
-      android:id="@+id/nav_button"
+      android:id="@+id/playback_button"
       android:textSize="30sp"
-      android:text="@string/navigation" />
+      android:enabled="false"
+      android:text="NOW PLAYING" />
   </TableRow>
 </TableLayout>
 
