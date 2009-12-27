@@ -1,12 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<TableLayout
   xmlns:android="http://schemas.android.com/apk/res/android" 
   android:layout_width="fill_parent" 
   android:layout_height="fill_parent" > 
-  <TextView
-    android:id="@+id/playlist"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:text="Media player goes here" />
-</LinearLayout>
+  <TableRow>
+    <Button 
+      android:layout_height="135sp"
+      android:layout_width="190sp"
+      android:id="@+id/rw_button"
+      android:textSize="30sp"
+      android:padding="15sp"
+      android:text="RW" />
+    <Button 
+      android:layout_height="135sp"
+      android:layout_width="190sp"
+      android:id="@+id/play_pause_button"
+      android:textSize="30sp"
+      android:padding="15sp"      
+      android:text="PAUSE" />
+    <Button 
+      android:layout_height="135sp"
+      android:layout_width="190sp"
+      android:id="@+id/ff_button"
+      android:textSize="30sp"
+      android:padding="15sp"     
+      android:text="FF" />
+  </TableRow>
+  <TableRow>
+    <TextView/>
+    <Button 
+      android:layout_height="135sp"
+      android:layout_width="190sp"
+      android:id="@+id/stop_button"
+      android:textSize="30sp"
+      android:padding="15sp"      
+      android:text="STOP" />
+    <TextView/>
+  </TableRow>
+</TableLayout>
 

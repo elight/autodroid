@@ -11,11 +11,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
-public class MediaPlayerActivity extends Activity {
+public class MediaPlayerActivity extends Activity implements OnClickListener {
   private Uri playlistURI;
 
   private static final String[] FROM = { _ID, DATA };
+  private static final String PLAY = "PLAY";
+  private static final String PAUSE = "PAUSE";
 
   private int fileNameColumnIndex;
 
@@ -35,10 +40,12 @@ public class MediaPlayerActivity extends Activity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.mediaplayer);
 
-    // Why the hell is this getting called more than once when the app is running?
     String playlistid = getIntent().getStringExtra("PLAYLIST_ID");
     ArrayList<String> audioFiles = loadMediaFrom(playlistid);
     playFilesInOrderFrom(audioFiles);
+
+    View playPauseButton = findViewById(R.id.play_pause_button); 
+    playPauseButton.setOnClickListener(this);
   }
 
   public void onDestroy() {
@@ -49,6 +56,25 @@ public class MediaPlayerActivity extends Activity {
   public void onPause() {
     Log.d("AutoDroid:MediaPlayerActivity:onPause", "");    
     super.onPause();    
+  }
+
+  public void onClick(View v) {
+    switch(v.getId()) {
+      case R.id.play_pause_button:
+        String label = PlaylistPlayer.getInstance().isPlaying() ? PLAY : PAUSE;        
+        ((Button) v).setText(label);           
+        PlaylistPlayer.getInstance().togglePlayPause();
+        break;
+      case R.id.stop_button:
+        PlaylistPlayer.getInstance().stop();
+        break;
+      case R.id.rw_button:
+        PlaylistPlayer.getInstance().previousTrack();
+        break;
+      case R.id.ff_button:
+        PlaylistPlayer.getInstance().nextTrack();        
+        break;
+    }
   }
 
   private void playFilesInOrderFrom(ArrayList<String> fileList) {    

@@ -2,6 +2,7 @@ package com.tiggerpalace.automan;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.ListIterator;
 
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
@@ -12,7 +13,7 @@ public class PlaylistPlayer implements OnCompletionListener {
 
   private ArrayList<String> playlist;
   private Thread thread = null;
-  private Iterator<String> playlistIterator;
+  private ListIterator<String> playlistIterator;
   private PlaylistRunnable runnable;
   
   public static PlaylistPlayer getInstance() {
@@ -24,10 +25,11 @@ public class PlaylistPlayer implements OnCompletionListener {
   
   public void setPlaylist(ArrayList<String> list) {
     playlist = list;
-    playlistIterator = list.iterator();
+    playlistIterator = list.listIterator();
   }
   
   public void start() {
+    Log.d("AutoDroid:PlaylistPlayer.start", "-");    
     stop();
     runnable = new PlaylistRunnable(this);
     thread = new Thread(runnable);
@@ -35,6 +37,7 @@ public class PlaylistPlayer implements OnCompletionListener {
   }
   
   public void stop() {
+    Log.d("AutoDroid:PlaylistPlayer.stop", "-");
     if(thread != null) {
       runnable.stop();
       thread.interrupt();
@@ -42,12 +45,45 @@ public class PlaylistPlayer implements OnCompletionListener {
     }
   }
   
-  public void pause() {
-    if(runnable != null) {
-      runnable.pause();
+  public void previousTrack() {
+    Log.d("AutoDroid:PlaylistPlayer.previousTrack", "-");
+    if(thread != null && playlistIterator.hasPrevious()) {
+      boolean isPlaying = runnable.isPlaying();
+      stop();
+      playlistIterator.previous();
+      if(isPlaying) {
+        thread = new Thread(runnable);
+        thread.start();
+      }
     }
   }
-
+  
+  public void nextTrack() {
+    Log.d("AutoDroid:PlaylistPlayer.nextTrack", "-");    
+    if(thread != null && playlistIterator.hasNext()) {
+      boolean isPlaying = runnable.isPlaying();
+      stop();
+      if(isPlaying) {
+        thread = new Thread(runnable);
+        thread.start();
+      } 
+    }
+  }
+  
+  public void togglePlayPause() {
+    Log.d("AutoDroid:PlaylistPlayer.togglePlayPause", "-");
+    if(runnable != null)
+      if(runnable.isPlaying()) {
+        runnable.pause();
+      } else {
+        runnable.start();
+    }
+  }
+  
+  public boolean isPlaying() {
+    return runnable.isPlaying();
+  }
+  
   public void onCompletion(MediaPlayer mp) {
     thread = new Thread(runnable);
     thread.start();
@@ -61,12 +97,24 @@ public class PlaylistPlayer implements OnCompletionListener {
       this.playlistPlayer = player;
     }
     
+    public boolean isPlaying() {
+      return player.isPlaying();
+    }
+    
     public void pause() {
+      Log.d("AutoDroid:PlaylistPlayer:PlaylistRunnable.pause", "-");
       player.pause();
     }
 
+    public void start() {
+      Log.d("AutoDroid:PlaylistPlayer:PlaylistRunnable.start", "-");      
+      player.start();
+    }
+
     public void stop() {
+      Log.d("AutoDroid:PlaylistPlayer:PlaylistRunnable.stop", "-");      
       player.stop();
+      player.release();
     }
     
     public void run() {
