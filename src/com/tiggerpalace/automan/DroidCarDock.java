@@ -17,7 +17,8 @@ public class DroidCarDock extends Activity implements OnClickListener {
   }
 
   public void onClick(View v) {
-    Intent playlists = new Intent(this, PlaylistActivity.class);
-    startActivity(playlists);
+    Intent intent = new Intent(this, PlaylistActivity.class);
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);    
+    startActivity(intent);
   }
 }

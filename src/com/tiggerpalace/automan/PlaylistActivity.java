@@ -43,10 +43,12 @@ public class PlaylistActivity extends ListActivity {
   @Override
   public void onListItemClick(ListView parent, View v, int position, long id) {
 	Log.d("AutoDroid:PlaylistActivity:onListItemClick", id + "");  
+    PlaylistPlayer.getInstance().stop();
     if (position >= 0) {
         Cursor c = (Cursor) parent.getItemAtPosition(position);
         String playlistid = c.getString(this.idColumnIndex);
-        Intent intent = new Intent(this, MediaPlayerActivity.class); 
+        Intent intent = new Intent(this, MediaPlayerActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("PLAYLIST_ID", playlistid); 
         startActivity(intent);
     }
