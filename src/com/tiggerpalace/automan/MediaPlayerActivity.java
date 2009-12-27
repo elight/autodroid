@@ -50,8 +50,9 @@ public class MediaPlayerActivity extends Activity implements OnClickListener {
     rwButton.setOnClickListener(this);
     View ffButton = findViewById(R.id.ff_button); 
     ffButton.setOnClickListener(this);
+    /*
     View stopButton = findViewById(R.id.stop_button); 
-    stopButton.setOnClickListener(this);    
+    stopButton.setOnClickListener(this);*/    
   }
 
   public void onDestroy() {
@@ -71,9 +72,11 @@ public class MediaPlayerActivity extends Activity implements OnClickListener {
         ((Button) v).setText(label);           
         PlaylistPlayer.getInstance().togglePlayPause();
         break;
+        /*
       case R.id.stop_button:
         PlaylistPlayer.getInstance().stop();
         break;
+        */
       case R.id.rw_button:
         PlaylistPlayer.getInstance().previousTrack();
         break;

@@ -75,11 +75,12 @@ public class PlaylistPlayer implements OnCompletionListener {
   
   public void togglePlayPause() {
     Log.d("AutoDroid:PlaylistPlayer.togglePlayPause", "-");
-    if(runnable != null
+    if(runnable != null) {
       if(runnable.isPlaying()) {
         runnable.pause();
       } else {
         runnable.start();
+      }
     }
   }
   
