@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Currency;
+import java.util.concurrent.ExecutorService;
 
 import android.app.Activity;
 import android.database.Cursor;
@@ -28,6 +29,8 @@ public class MediaPlayerActivity extends Activity {
 
 	private int fileNameColumnIndex;
 	
+	private Thread playerThread;
+	
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -36,19 +39,18 @@ public class MediaPlayerActivity extends Activity {
     String playlistid = getIntent().getStringExtra("PLAYLIST_ID");
     
     audioFiles = loadMediaFrom(playlistid);
-    playFirstFileIn(audioFiles);
+    playFilesInOrderFrom(audioFiles);
+  }
+  
+  public void onPause(MediaPlayerActivity activity) {
+    super.onPause();
+    playerThread.interrupt();
   }
 
-  private void playFirstFileIn(ArrayList<String> fileList) {
-	Log.d("Play first file in", fileList.toString());
-	MediaPlayer player = new MediaPlayer();
-	try {
-	  player.setDataSource(fileList.get(0));
-	  player.prepare();
-	  player.start();
-	} catch(Exception e) {
-	  Log.e("playFirstFileIn", e.getMessage());
-	}
+  private void playFilesInOrderFrom(ArrayList<String> fileList) {
+	Log.d("playFilesInOrderFrom", fileList.toString());
+	playerThread = new Thread(new PlaylistPlayer(fileList));
+	playerThread.start();
   }
 
   private ArrayList<String> loadMediaFrom(String playlistid) {
