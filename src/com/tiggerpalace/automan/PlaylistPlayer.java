@@ -41,6 +41,12 @@ public class PlaylistPlayer implements OnCompletionListener {
       thread = null;
     }
   }
+  
+  public void pause() {
+    if(runnable != null) {
+      runnable.pause();
+    }
+  }
 
   public void onCompletion(MediaPlayer mp) {
     thread = new Thread(runnable);
@@ -53,6 +59,14 @@ public class PlaylistPlayer implements OnCompletionListener {
 
     PlaylistRunnable(PlaylistPlayer player) {
       this.playlistPlayer = player;
+    }
+    
+    public void pause() {
+      player.pause();
+    }
+
+    public void stop() {
+      player.stop();
     }
     
     public void run() {
@@ -70,10 +84,6 @@ public class PlaylistPlayer implements OnCompletionListener {
           Log.e("AutoDroid:PlaylistPlayer:run", e.getMessage());
         }
       }
-    }
-    
-    public void stop() {
-      player.stop();
     }
   }
   
