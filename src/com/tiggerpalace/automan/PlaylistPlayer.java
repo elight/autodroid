@@ -28,7 +28,7 @@ public class PlaylistPlayer implements OnCompletionListener {
   }
   
   public void start() {
-    Log.d("AutoDroid:PlaylistPlayer.start", "-");    
+    Log.d("AutoDroid:PlaylistPlayer.start", "begin");    
     stop();
     player = buildPlayer();
     if(playlistIterator.hasNext()) {
@@ -42,19 +42,21 @@ public class PlaylistPlayer implements OnCompletionListener {
         Log.e("AutoDroid:PlaylistPlayer:run", e.getMessage());
       }
     }
+    Log.d("AutoDroid:PlaylistPlayer.start", "done");    
   }
 
   public void stop() {
-    Log.d("AutoDroid:PlaylistPlayer.stop", "-");
+    Log.d("AutoDroid:PlaylistPlayer.stop", "begin");
     if(player != null) {
       player.stop();
       player.release();
       player = null;
     }
+    Log.d("AutoDroid:PlaylistPlayer.stop", "done");    
   }
   
   public void previousTrack() {
-    Log.d("AutoDroid:PlaylistPlayer.previousTrack", "-");
+    Log.d("AutoDroid:PlaylistPlayer.previousTrack", "begin");
     if(playlistIterator.hasPrevious()) {
       boolean wasPlaying = isPlaying();
       stop();
@@ -66,10 +68,11 @@ public class PlaylistPlayer implements OnCompletionListener {
         start();
       }
     }
+    Log.d("AutoDroid:PlaylistPlayer.previousTrack", "done");    
   }
   
   public void nextTrack() {
-    Log.d("AutoDroid:PlaylistPlayer.nextTrack", "-");    
+    Log.d("AutoDroid:PlaylistPlayer.nextTrack", "begin");    
     if(playlistIterator.hasNext()) {
       boolean wasPlaying = isPlaying();
       stop();
@@ -77,21 +80,28 @@ public class PlaylistPlayer implements OnCompletionListener {
         start();
       } 
     }
+    Log.d("AutoDroid:PlaylistPlayer.nextTrack", "done");      
   }
   
   public void togglePlayPause() {
-    Log.d("AutoDroid:PlaylistPlayer.togglePlayPause", "-");
+    Log.d("AutoDroid:PlaylistPlayer.togglePlayPause", "begin");
     if(isPlaying()) {
+      Log.d("AutoDroid:PlaylistPlayer.togglePlayPause", "Pausing");
       player.pause();
     } else {
+      Log.d("AutoDroid:PlaylistPlayer.togglePlayPause", "Starting play");
       try {
         if(player != null) {
+          Log.d("AutoDroid:PlaylistPlayer.togglePlayPause", "Attempting to resume play via MediaPlayer.start");
           player.start();
+          Log.d("AutoDroid:PlaylistPlayer.togglePlayPause", "Success!");
         } 
       } catch(Exception e) {
+        Log.d("AutoDroid:PlaylistPlayer.togglePlayPause", "Failure! Caught an exception in MediaPlayer.start; starting from scratch on next track");
         start();
       }
     }
+    Log.d("AutoDroid:PlaylistPlayer.togglePlayPause", "done");    
   }
   
   public boolean isPlaying() {
