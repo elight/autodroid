@@ -13,7 +13,7 @@ public class DroidCarDock extends Activity implements OnClickListener {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main);
-
+    
     View musicButton = findViewById(R.id.music_button); 
     musicButton.setOnClickListener((OnClickListener) this);
     View playbackButton = findViewById(R.id.playback_button);    

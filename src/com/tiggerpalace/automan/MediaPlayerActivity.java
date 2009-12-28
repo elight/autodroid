@@ -6,7 +6,10 @@ import static android.provider.MediaStore.MediaColumns.DATA;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -16,29 +19,22 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 public class MediaPlayerActivity extends Activity implements OnClickListener {
-  private Uri playlistURI;
-
   private static final String[] FROM = { _ID, DATA };
   private static final String PLAY = "PLAY";
   private static final String PAUSE = "PAUSE";
-
+  
+  private Uri playlistURI;
+  private AudioManager audioManager;
   private int fileNameColumnIndex;
-
-  private static Thread playerThread;
-
-  private static void setPlayerThread(Thread playerThread) {
-    MediaPlayerActivity.playerThread = playerThread;
-  }
-
-  private static Thread getPlayerThread() {
-    return playerThread;
-  }
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     Log.d("AutoDroid:MediaPlayerActivity:onCreate", "");
     super.onCreate(savedInstanceState);
     setContentView(R.layout.mediaplayer);
+    
+    setVolumeControlStream(AudioManager.STREAM_MUSIC);
+    audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
     String playlistid = getIntent().getStringExtra("PLAYLIST_ID");
     // Handle case where we're creating a MediaPlayerActivity but the player is or was already playing 
@@ -53,6 +49,12 @@ public class MediaPlayerActivity extends Activity implements OnClickListener {
     rwButton.setOnClickListener(this);
     View ffButton = findViewById(R.id.ff_button); 
     ffButton.setOnClickListener(this); 
+    View backButton = findViewById(R.id.back_button);
+    backButton.setOnClickListener(this);
+    View volDownButton = findViewById(R.id.vol_down_button);
+    volDownButton.setOnClickListener(this);
+    View volUpButton = findViewById(R.id.vol_up_button);
+    volUpButton.setOnClickListener(this);
     
     if( ! PlaylistPlayer.getInstance().isPlaying() ) {
       playPauseButton.setText("PLAY");
@@ -81,6 +83,16 @@ public class MediaPlayerActivity extends Activity implements OnClickListener {
         break;
       case R.id.ff_button:
         PlaylistPlayer.getInstance().nextTrack();        
+        break;
+      case R.id.vol_down_button:
+        audioManager.adjustSuggestedStreamVolume(AudioManager.ADJUST_LOWER, AudioManager.STREAM_MUSIC, AudioManager.FLAG_PLAY_SOUND | AudioManager.FLAG_SHOW_UI);
+        break;
+      case R.id.vol_up_button:
+        audioManager.adjustSuggestedStreamVolume(AudioManager.ADJUST_RAISE, AudioManager.STREAM_MUSIC, AudioManager.FLAG_PLAY_SOUND | AudioManager.FLAG_SHOW_UI);
+        break;
+      case R.id.back_button:
+        Intent intent = new Intent(this, DroidCarDock.class);
+        startActivity(intent);
         break;
     }
   }

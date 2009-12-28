@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<TableLayout
   xmlns:android="http://schemas.android.com/apk/res/android" 
   android:layout_width="fill_parent" 
   android:layout_height="fill_parent" > 
+  <TableRow>
     <Button 
       android:layout_height="135sp"
       android:layout_width="190sp"
@@ -24,18 +25,30 @@
       android:textSize="30sp"
       android:padding="15sp"     
       android:text="FF" />
-  <!-- 
+  </TableRow>      
   <TableRow>
-    <TextView/>
     <Button 
       android:layout_height="135sp"
       android:layout_width="190sp"
-      android:id="@+id/stop_button"
+      android:id="@+id/back_button"
       android:textSize="30sp"
       android:padding="15sp"      
-      android:text="STOP" />
+      android:text="BACK" />
+    <Button 
+      android:layout_height="135sp"
+      android:layout_width="190sp"
+      android:id="@+id/vol_down_button"
+      android:textSize="30sp"
+      android:padding="15sp"      
+      android:text="VOL -" />
+    <Button 
+      android:layout_height="135sp"
+      android:layout_width="190sp"
+      android:id="@+id/vol_up_button"
+      android:textSize="30sp"
+      android:padding="15sp"      
+      android:text="VOL +" />
     <TextView/>
   </TableRow>
-   -->
-</LinearLayout>
+</TableLayout>
 
