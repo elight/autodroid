@@ -5,21 +5,21 @@
   android:layout_height="fill_parent" > 
   <TableRow>
     <Button 
-      android:layout_height="135sp"
+      android:layout_height="150sp"
       android:layout_width="190sp"
       android:id="@+id/rw_button"
       android:textSize="30sp"
       android:padding="15sp"
       android:text="RW" />
     <Button 
-      android:layout_height="135sp"
+      android:layout_height="150sp"
       android:layout_width="190sp"
       android:id="@+id/play_pause_button"
       android:textSize="30sp"
       android:padding="15sp"      
       android:text="PAUSE" />
     <Button 
-      android:layout_height="135sp"
+      android:layout_height="150sp"
       android:layout_width="190sp"
       android:id="@+id/ff_button"
       android:textSize="30sp"
@@ -28,21 +28,21 @@
   </TableRow>      
   <TableRow>
     <Button 
-      android:layout_height="135sp"
+      android:layout_height="150sp"
       android:layout_width="190sp"
       android:id="@+id/back_button"
       android:textSize="30sp"
       android:padding="15sp"      
       android:text="BACK" />
     <Button 
-      android:layout_height="135sp"
+      android:layout_height="150sp"
       android:layout_width="190sp"
       android:id="@+id/vol_down_button"
       android:textSize="30sp"
       android:padding="15sp"      
       android:text="VOL -" />
     <Button 
-      android:layout_height="135sp"
+      android:layout_height="150sp"
       android:layout_width="190sp"
       android:id="@+id/vol_up_button"
       android:textSize="30sp"
